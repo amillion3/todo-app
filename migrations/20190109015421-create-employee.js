@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       salary: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -24,6 +24,15 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      companyId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: "Companies",
+          key: "id",
+          as: "companyId",
+        }
       }
     });
   },
