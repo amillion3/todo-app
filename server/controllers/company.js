@@ -14,4 +14,11 @@ module.exports = {
     .then(company => res.status(201).send(company))
     .catch(error => res.status(400).send(error));
   },
+  // Fetch all companies from our DB and return to user in an array
+  list(req, res) {
+    return Company
+    .all()
+    .then(company => res.status(200).send(company))
+    .catch(error => res.status(400).send(error));
+  },
 };

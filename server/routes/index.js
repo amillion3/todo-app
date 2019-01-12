@@ -8,4 +8,5 @@ module.exports = app => {
 
 // Company POST route
 app.post('/api/company', companyController.create);
+app.get('/api/company', companyController.list);
 };
