@@ -7,4 +7,5 @@ module.exports = (app) => {
 
   // Todos POST route
   app.post('/api/todos', todosController.create);
+  app.get('api/todos', todosController.list);
 };
