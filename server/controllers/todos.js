@@ -49,4 +49,29 @@ module.exports = {
     })
     .catch(error => res.status(400).send(error));
   },
+  // Find matching `todoId` supplied by user
+  // Updating its title, if no title, default to original title
+  update(req, res) {
+    return Todo
+      .findById(req.params.todoId, {
+        include: [{
+          model: TodoItem,
+          as: 'todoItems',
+        }],
+      })
+      .then(todo => {
+        if (!todo) {
+          return res.status(404).send({
+            message: 'Todo Not found',
+          });
+        }
+        return todo
+        .update({
+          title: req.body.title || todo.title
+        })
+        .then(() => res.status(200).send(todo)) // send updated todo back
+        .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
+  },
 };
