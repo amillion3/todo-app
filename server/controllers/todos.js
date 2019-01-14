@@ -1,4 +1,5 @@
 const Todo = require('../../models').Todo;
+const TodoItem = require('../../models').TodoItem;
 
 // Creates a new todo and returns it, if succesful
 module.exports = {
@@ -16,5 +17,36 @@ module.exports = {
       .all()
       .then(todos => res.status(200).send(todos))
       .catch(error => res.status(400).send(error));
-  }
+  },
+  // Gets all `todos` and include any associated `todoItems`
+  list(req, res) {
+    return Todo
+      .findAll({
+        include: [{
+          model: TodoItem,
+          as: 'todoItems',
+        }],
+      })
+      .then(todos => res.status(200).send(todos))
+      .catch(error => res.status(400).send(error));
+  },
+  // Gets a single todo
+  retrieve(req, res) {
+    return Todo
+      .findById(req.params.todoId, {
+        include: [{
+          model: TodoItem,
+          as: 'todoItems',
+        }]
+      })
+    .then(todo => {
+      if (!todo) {
+        return res.status(404).send({
+          message: 'Todo Not Found',
+        });
+      }
+      return res.status(200).send(todo);
+    })
+    .catch(error => res.status(400).send(error));
+  },
 };
